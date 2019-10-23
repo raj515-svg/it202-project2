@@ -11,31 +11,62 @@
                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	     crossorigin="anonymous">
         <style>
-        h2 {
-            font-family: "URW Chancery L, cursive";
-        }
+            .button {
+              background-color: #4CAF50; 
+              border: none;
+              color: white;
+              padding: 8px 20px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              -webkit-transition-duration: 0.4s; 
+              transition-duration: 0.4s;
+              cursor: pointer;
+            }
+            .button1 {
+                background-color: white;
+                color: black;
+                border: 2px solid #e7e7e7;
+                border-radius: 12px;
+                }
+             .button1:hover {background-color: #e7e7e7;}
+            .button2 {
+                background-color: white;
+                color: black;
+                border: 2px solid #555555;
+                border-radius: 12px;
+            }
 
-        h5 {
-            font-family: "URW Chancery L, cursive";
-        }
-</style>
-    </head>
-    <body>
-        <!--Search by day of week-->
-        <div class="contains">
+            .button2:hover {
+              background-color: #555555;
+              color: white;
+            }
             
+        </style>
+    </head>
+    <body background = "https://www.pngkey.com/png/full/10-106231_blur-transparent-white-hard-white-plastic-texture.png">
+        <div class="jumbotron text-center bg-dark text-white">
+              <h1>UNTITLED APP</h1>
+        </div>
+<div class="container" style = "text-align: center">
+  <div class="row">
+    <div class="col-sm-5 bg-light text-dark">
+      <div class="contains">  
         <h2>Search Movie or Park by day</h2>
          <input type = "text" placeholder = "Day of the Week" id = "day"> 
-         <button id = "txtSearch">
+         <button class= "button button1" id = "txtSearch">
              Search
         </button><br><br>
         </div>
        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
-               integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+               integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
+               crossorigin="anonymous"></script>
         <script>
             function hideAll(){
                 $(".contains").hide();
-            }
+             }
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
             $(document).ready(function(){
                 $("#txtSearch").on("click", function(){ 
@@ -50,10 +81,12 @@
                 });
             });
         </script>
+    </div>
+    <div class="col-sm-7 bg-secondary text-white">   
         <!--Search for multiple days of the week-->
         <div class="contains">
         <h2> Search by selecting particular day for any Movie or Park</h2>
-        <h5>You can also search by Movie Name or Park Name</h5>
+        <h5 class = "text-info">You can also search by Movie Name or Park Name</h5>
             Monday: <input type="checkbox" id= "isMondaySelected">
             Tuesday: <input type="checkbox"  id= "isTuesdaySelected" >
             Wednesday: <input type="checkbox"  id= "isWednesdaySelected">
@@ -158,17 +191,22 @@
         <!--Search by park name-->
         <div class="contains">
         <input type = "text" placeholder = "Park Name" id = "park"> 
-         <button id = "txtSearch1">
+         <button class = "button button2" id = "txtSearch1">
              Search
         </button><br><br>
         </div>
+        
        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
                crossorigin="anonymous"></script>
         <script>
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
-            $(document).ready(function(){
-                $("#txtSearch1").on("click", function(){          
+            function hideAll(){
+                $(".contains").hide();
+            }
+            $(document).ready(function(){                
+                $("#txtSearch1").on("click", function(){  
+                    hideAll();
                    $.get(endpoint + "?$where=park='"+ $("#park").val() +"'", 
                          function(response){
                              $.each(response, function(i,v){
@@ -183,19 +221,24 @@
         <!--Search by movie title-->
         <div class="contains">
         <input type = "text" placeholder = "Movie Title" id = "title"> 
-         <button id = "txtSearch2">
+         <button class = "button button2" id = "txtSearch2">
              Search
         </button><br> <br>
         </div>
+    
        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
                crossorigin="anonymous"></script>
         <script>
+            var longitude;
+            var latitude;
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
-            $(document).ready(function(){
-                
+            function hideAll(){
+                $(".contains").hide();
+            }
+            $(document).ready(function(){        
                 $("#txtSearch2").on("click", function(){
-                    
+                    hideAll();
                    $.get(endpoint + "?$where=title='"+ $("#title").val() +"'", 
                          function(response){
                              $.each(response, function(i,v){
@@ -205,8 +248,12 @@
                     }); 
                 });
             });
+           </script>  
+        </div>
+    </div>
+</div>
+   
             
-        </script>
         
     </body>
 </html>
