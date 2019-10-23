@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body>
+    <script src="data.js"></script>
+    <script>
+      
+      // define the keys you want to display, 
+      // in the order you want, with the label
+      let keysAndLabelsIWantToDisplay = 
+      {
+        "day":"Day of the Week","park":"Name of the Park",
+        "title":"Movie Title"
+      };
+
+      //  loop the data
+      for (let p in movies) {
+        let movies = movies[p];
+        
+        // loop your display object
+        for (let k in keysAndLabelsIWantToDisplay) {
+          // get the relevant label and value
+          let displayLabel = keysAndLabelsIWantToDisplay[k];
+          let displayValue = movies[k];
+          // output
+          $("body").append(displayLabel, ": ",displayValue);
+        }
+        $("body").append(displayLabel, ": ",displayValue);
+
+
+      }
+      </script>
+
+
+  </body>
+</html>
