@@ -7,7 +7,8 @@
         <script   src="https://code.jquery.com/jquery-3.4.1.min.js"   
                 integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-       
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	     crossorigin="anonymous"> 
     </head>
     <body>
         <!--Search by day of week-->
@@ -20,7 +21,9 @@
         <script>
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
             $(document).ready(function(){
-                $("#txtSearch").on("click", function(){          
+               
+                $("#txtSearch").on("click", function(){ 
+                    	
                    $.get(endpoint + "?$where=day='"+ $("#day").val()+"'", 
                          function(response){
                              $.each(response, function(i,v){
@@ -78,25 +81,96 @@
         <!--Search for multiple days of the week-->
             Monday: <input type="checkbox" id= "isMondaySelected">
             Tuesday: <input type="checkbox"  id= "isTuesdaySelected" >
-            Wednesday: <input type="checkbox"  id= "isWednesdaySelected" >
-            <input type="submit" value="Submit">
+            Wednesday: <input type="checkbox"  id= "isWednesdaySelected">
+            Thursday: <input type="checkbox"  id= "isThursdaySelected">
+            Friday: <input type="checkbox"  id= "isFridaySelected">
+            Saturday: <input type="checkbox"  id= "isSaturdaySelected">
+            Sunday: <input type="checkbox"  id= "isSundaySelected"> 
          
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script>
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
-            if(document.getElementById('isMondaySelected').checked) {
                 $(document).ready(function(){
-                    $("#txtSearch").on("click", function(){          
-                       $.get(endpoint + "?$where=day='Mon'", 
-                             function(response){
-                                 $.each(response, function(i,v){
-                                        $("body").append(v.title + " " + v.park + "<br>");
-                                 });
-                        }); 
+                    $("#isMondaySelected").on("click", function() {  
+                        if($('#isMondaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Mon'" + " AND (park='" + $("#park").val()+ "' OR (title='" +
+                                 $("#title").val() + "')" , 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                            $("body").append(v.title + " " + v.park + "<br>");
+                                     });
+                            }); 
+                        }
+                    });
+                    $("#isTuesdaySelected").on("click", function() {  
+                        if($('#isTuesdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Tue'" + " AND (park='" + $("#park").val()+ "' OR (title='" +
+                                 $("#title").val() + "')" , 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                            $("body").append(v.title + " " + v.park + "<br>");
+                                     });
+                            }); 
+                        }
                     });
                 });
-           }  
+                $("#isWednesdaySelected").on("click", function() {  
+                        if($('#isWednesdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Wed'" + " AND (park='" + $("#park").val()+ "' OR (title='" +
+                                 $("#title").val() + "')" , 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                            $("body").append(v.title + " " + v.park + "<br>");
+                                     });
+                            }); 
+                        }
+                    });
+                $("#isThursdaySelected").on("click", function() {  
+                        if($('#isThursdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Thu'" + " AND (park='" + $("#park").val()+ "' OR (title='" +
+                                 $("#title").val() + "')"  , 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                            $("body").append(v.title + " " + v.park + "<br>");
+                                     });
+                            }); 
+                        }
+                    });
+                $("#isFridaySelected").on("click", function() {  
+                        if($('#isFridaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Thu'" + " AND (park='" + $("#park").val()+ "' OR (title='" +
+                                 $("#title").val() + "')", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                            $("body").append(v.title + " " + v.park + "<br>");
+                                     });
+                            }); 
+                        }
+                    });
+                $("#isSaturdaySelected").on("click", function() {  
+                        if($('#isSaturdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Thu'" + " AND (park='" + $("#park").val()+ "' OR (title='" +
+                                 $("#title").val() + "')", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                            $("body").append(v.title + " " + v.park + "<br>");
+                                     });
+                            }); 
+                        }
+                    });
+                $("#isSundaySelected").on("click", function() {  
+                        if($('#isSundaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Sun'" + " AND park='" + $("#park").val()+ "' OR (title='" +
+                                 $("#title").val() + "')" , 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                            $("body").append(v.title + " " + v.park + "<br>");
+                                     });
+                            }); 
+                        }
+                    });
+            
         </script>
         
     </body>
