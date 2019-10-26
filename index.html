@@ -43,7 +43,11 @@
               background-color: #555555;
               color: white;
             }
-            
+          #map {
+            width: 100%;
+            height: 400px;
+            background-color: grey;
+          } 
         </style>
     </head>
     <body background = "https://www.pngkey.com/png/full/10-106231_blur-transparent-white-hard-white-plastic-texture.png">
@@ -67,20 +71,29 @@
             function hideAll(){
                 $(".contains").hide();
              }
+            var locations = new Array();
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
             $(document).ready(function(){
                 $("#txtSearch").on("click", function(){ 
                     hideAll();
-                   $.get(endpoint + "?$where=day='"+ $("#day").val()+"'", 
+                   $.get(endpoint + "?$where=day='"+ $("#day").val()+"'",
                          function(response){
                              $.each(response, function(i,v){
-                                    $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                     + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                    locations.push(v.location); 
+                                     //console.log(locations.length);
+                                     //console.log(locations);
                              });
                     }); 
                 });
             });
-        </script>
+            console.log(locations.length);
+            var i;
+            for(i=0;i<locations.length;i++){
+                console.log(locations);
+            }
+        </script> 
+       
     </div>
     <div class="col-sm-7 bg-secondary text-white">   
         <!--Search for multiple days of the week-->
@@ -107,8 +120,9 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                         
+                                         
                                      });
                             }); 
                         }
@@ -119,8 +133,7 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                                      });
                             }); 
                         }
@@ -132,8 +145,7 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                                      });
                             }); 
                         }
@@ -144,8 +156,7 @@
                                  $("#title").val() + "')"  , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                                      });
                             }); 
                         }
@@ -156,8 +167,7 @@
                                  $("#title").val() + "')", 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                                      });
                             }); 
                         }
@@ -168,8 +178,7 @@
                                  $("#title").val() + "')", 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                                      });
                             }); 
                         }
@@ -180,8 +189,7 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                                      });
                             }); 
                         }
@@ -210,8 +218,11 @@
                    $.get(endpoint + "?$where=park='"+ $("#park").val() +"'", 
                          function(response){
                              $.each(response, function(i,v){
-                                    $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                 var data = {
+                                     lat: v.latitude,
+                                     long: v.longitude
+                                 };
+                                    $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                              });
                     }); 
                 });
@@ -230,8 +241,6 @@
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
                crossorigin="anonymous"></script>
         <script>
-            var longitude;
-            var latitude;
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
             function hideAll(){
                 $(".contains").hide();
@@ -242,18 +251,14 @@
                    $.get(endpoint + "?$where=title='"+ $("#title").val() +"'", 
                          function(response){
                              $.each(response, function(i,v){
-                                    $("body").append("Day: "+ v.day + "<br>Park Name: " + v.park 
-                                                             + "<br>Title of the Movie: "+v.title+ "<br>***************<br>");
+                                    $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
                              });
                     }); 
                 });
             });
-           </script>  
-        </div>
-    </div>
-</div>
-   
-            
-        
+                   </script>
+                </div>     
+            </div>
+        </div>       
     </body>
 </html>
