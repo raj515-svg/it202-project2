@@ -64,36 +64,45 @@
              Search
         </button><br><br>
         </div>
+        <div id="map"></div>
        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
                crossorigin="anonymous"></script>
         <script>
-            function hideAll(){
+           function hideAll(){
                 $(".contains").hide();
              }
-            var locations = new Array();
-            var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
-            $(document).ready(function(){
-                $("#txtSearch").on("click", function(){ 
-                    hideAll();
-                   $.get(endpoint + "?$where=day='"+ $("#day").val()+"'",
-                         function(response){
-                             $.each(response, function(i,v){
-                                $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
-                                    locations.push(v.location); 
-                                     //console.log(locations.length);
-                                     //console.log(locations);
-                             });
-                    }); 
-                });
-            });
-            console.log(locations.length);
-            var i;
-            for(i=0;i<locations.length;i++){
-                console.log(locations);
+                   var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
+                   $(document).ready(function(){
+                        $("#txtSearch").on("click", function(){ 
+                            hideAll();
+                           $.get(endpoint + "?$where=day='"+ $("#day").val()+"'",
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+    "</div></div>")
+                                         createMarkers(v);                         
+                                     });
+                            });               
+                        });               
+                    });
+            var map;
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'),{
+                    zoom: 10,
+                    center: {lat: 41.881832, lng: -87.623177}
+                 });  
             }
-        </script> 
-       
+        function createMarkers(record){
+           var loc = {lat: parseFloat(record.location.latitude), lng: parseFloat(record.location.longitude)}
+            var markers =  new google.maps.Marker({
+                position: loc,
+                map: map 
+              });
+        }   
+    </script>
+    <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_ozD9-Pzw4b7Z0vdPGDuaiIw0DNJM9Vc&callback=initMap">
+            </script>
     </div>
     <div class="col-sm-7 bg-secondary text-white">   
         <!--Search for multiple days of the week-->
@@ -107,10 +116,104 @@
             Friday: <input type="checkbox"  id= "isFridaySelected">
             Saturday: <input type="checkbox"  id= "isSaturdaySelected">
             Sunday: <input type="checkbox"  id= "isSundaySelected"> <br><br>
+            <div>
+                <button class= "button button2" type="submit" id="search">Search by day</button>
+            </div>
         </div>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
                     crossorigin="anonymous"></script>
+        <!--Search by selecting multiple days-->
+        <script>
+            var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
+                $(document).ready(function(){
+                    $("#search").on("click", function() {
+                        hideAll();
+                        if($('#isMondaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Mon'", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                                 class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text                                                            muted'>"+v.park+ " </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "                                                    </h6> <a href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);          
+                                     });
+                            }); 
+                        }
+                    });
+                    $("#search").on("click", function() {  
+                        hideAll();
+                        if($('#isTuesdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Tue'", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text                                                           muted'>"+v.park+ "</h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                             href='map.html'>Directions</a> </div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
+                                     });
+                            }); 
+                        }
+                    });
+                });
+                $("#search").on("click", function() { 
+                    hideAll();
+                        if($('#isWednesdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Wed'", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-                                                           muted'>"+v.park+ "</h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                             href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
+                                     });
+                            }); 
+                        }
+                    });
+                $("#search").on("click", function() {  
+                    hideAll();
+                        if($('#isThursdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Thu'", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                                href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
+                                     });
+                            }); 
+                        }
+                    });
+                $("#search").on("click", function() { 
+                    hideAll();
+                        if($('#isFridaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Fri'", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                               href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
+                                     });
+                            }); 
+                        }
+                    });
+                $("#search").on("click", function() {  
+                    hideAll();
+                        if($('#isSaturdaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Sat'", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                               href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
+                                     });
+                            }); 
+                        }
+                    });
+                $("#search").on("click", function() {  
+                    hideAll();
+                        if($('#isSundaySelected').is(':checked')){
+                           $.get(endpoint + "?$where=day='Sun'", 
+                                 function(response){
+                                     $.each(response, function(i,v){
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                               href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
+                                     });
+                            }); 
+                        }
+                    });
+        </script>
+        <!--Search by day and park or movie-->
         <script>
             var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
                 $(document).ready(function(){
@@ -120,9 +223,8 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
-                                         
-                                         
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                                 class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text                                                            muted'>"+v.park+ " </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "                                                    </h6> <a href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);          
                                      });
                             }); 
                         }
@@ -133,7 +235,8 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text                                                           muted'>"+v.park+ "</h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                             href='map.html'>Directions</a> </div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
                                      });
                             }); 
                         }
@@ -145,7 +248,8 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-                                                           muted'>"+v.park+ "</h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                             href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
                                      });
                             }); 
                         }
@@ -156,7 +260,8 @@
                                  $("#title").val() + "')"  , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                                href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
                                      });
                             }); 
                         }
@@ -167,7 +272,8 @@
                                  $("#title").val() + "')", 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                               href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
                                      });
                             }); 
                         }
@@ -178,7 +284,8 @@
                                  $("#title").val() + "')", 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                               href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
                                      });
                             }); 
                         }
@@ -189,21 +296,20 @@
                                  $("#title").val() + "')" , 
                                  function(response){
                                      $.each(response, function(i,v){
-                                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a                                                               href='map.html'>Directions</a></div></div>")
+                                         locations.push([v.location.latitude,v.location.longitude]);
                                      });
                             }); 
                         }
                     });
-            
         </script>
-        <!--Search by park name-->
+        <!--Search by park name only-->
         <div class="contains">
         <input type = "text" placeholder = "Park Name" id = "park"> 
          <button class = "button button2" id = "txtSearch1">
              Search
         </button><br><br>
         </div>
-        
        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
                crossorigin="anonymous"></script>
@@ -218,25 +324,21 @@
                    $.get(endpoint + "?$where=park='"+ $("#park").val() +"'", 
                          function(response){
                              $.each(response, function(i,v){
-                                 var data = {
-                                     lat: v.latitude,
-                                     long: v.longitude
-                                 };
-                                    $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                 locations.push([v.location.latitude,v.location.longitude]);
                              });
                     }); 
                 });
             });
             
         </script>
-        <!--Search by movie title-->
+        <!--Search by movie title only-->
         <div class="contains">
         <input type = "text" placeholder = "Movie Title" id = "title"> 
          <button class = "button button2" id = "txtSearch2">
              Search
         </button><br> <br>
         </div>
-    
        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
                crossorigin="anonymous"></script>
@@ -251,7 +353,8 @@
                    $.get(endpoint + "?$where=title='"+ $("#title").val() +"'", 
                          function(response){
                              $.each(response, function(i,v){
-                                    $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>"+v.title+"</h4><h5 class='card-subtitle mb-2 text-muted'>"+v.park+ "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>"+v.day+ "</h6> <a href='map.html'>Directions</a>                                 </div></div>")
+                                 locations.push([v.location.latitude,v.location.longitude]);
                              });
                     }); 
                 });
