@@ -10,6 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="theme_color" content: "#FFE1C4">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
@@ -18,7 +20,7 @@
         .content {
             margin: 1em;
         }
-          .button {
+        .button {
             background-color: #4CAF50;
             border: none;
             color: white;
@@ -56,12 +58,15 @@
             height: 700px;
             background-color: grey;
         }
-        .contains{
+        .contains {
             color: white;
             font-family: Trattatello, fantasy;
         }
-        .navbar{
+        .navbar {
             font-family:Luminari, fantasy;
+        }
+        .card {
+            text-align:center;
         }
     </style>
 </head>
@@ -109,11 +114,12 @@
                     hideAll();
                     $.get(endpoint + "?$where=day='" + $("#day").val() + "'", function(response) {
                         $.each(response, function(i, v) {
-                            $("body").append("<div class='card' style='text-align: center'><div class='card-body'><h4                                                         class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2                                                             <text-></text->muted'>" + v.park + "  </h5><h6 class='card-subtitle mb-2                                                         text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div> </div>")
+                            $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
                             count++;
                         });
-                        $("body").append("Total results: " + count)
+                        $("body").append("<div class = 'count' style= 'background-color:white'>Total results: " + count + "</div>")
+                        count = 0;
                     });
                 });
             });
@@ -156,6 +162,7 @@
                 $(".card").hide();
                 $(".contains").show();
                 $("#map").hide();
+                $(".count").hide();
             });
             $("#map1").on("click", function() {
                 $(".card").hide();
@@ -193,7 +200,7 @@
                 if($('#isMondaySelected').is(':checked')) {
                     $.get(endpoint + "?$where=day='Mon'", function(response) {
                         $.each(response, function(i, v) {
-                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                                 class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text                                                            muted'>" + v.park + " </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "                                                     </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                            $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
                         });
                     });
@@ -204,7 +211,7 @@
                 if($('#isTuesdaySelected').is(':checked')) {
                     $.get(endpoint + "?$where=day='Tue'", function(response) {
                         $.each(response, function(i, v) {
-                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text                                                           muted'>" + v.park + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + " </div></div>")
+                            $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
                         });
                     });
@@ -216,7 +223,7 @@
             if($('#isWednesdaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Wed'", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-                                                           muted'>" + v.park + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -227,7 +234,7 @@
             if($('#isThursdaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Thu'", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -238,7 +245,7 @@
             if($('#isFridaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Fri'", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -249,7 +256,7 @@
             if($('#isSaturdaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Sat'", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -260,7 +267,7 @@
             if($('#isSundaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Sun'", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -321,7 +328,7 @@
                 if($('#isMondaySelected').is(':checked')) {
                     $.get(endpoint + "?$where=day='Mon'" + " AND (park='" + $("#park").val() + "' OR title='" + $("#title").val() + "')", function(response) {
                         $.each(response, function(i, v) {
-                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                                 class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text                                                            muted'>" + v.park + " </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                            $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
                         });
                     });
@@ -331,7 +338,7 @@
                 if($('#isTuesdaySelected').is(':checked')) {
                     $.get(endpoint + "?$where=day='Tue'" + " AND (park='" + $("#park").val() + "' OR title='" + $("#title").val() + "')", function(response) {
                         $.each(response, function(i, v) {
-                            $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text                                                           muted'>" + v.park + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + " </div></div>")
+                            $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
                         });
                     });
@@ -342,7 +349,7 @@
             if($('#isWednesdaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Wed'" + " AND (park='" + $("#park").val() + "' OR title='" + $("#title").val() + "')", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-                                                           muted'>" + v.park + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -352,7 +359,7 @@
             if($('#isThursdaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Thu'" + " AND (park='" + $("#park").val() + "' OR title='" + $("#title").val() + "')", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -362,7 +369,7 @@
             if($('#isFridaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Fri'" + " AND (park='" + $("#park").val() + "' OR title='" + $("#title").val() + "')", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -372,7 +379,7 @@
             if($('#isSaturdaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Sat'" + " AND (park='" + $("#park").val() + "' OR title='" + $("#title").val() + "')", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -382,7 +389,7 @@
             if($('#isSundaySelected').is(':checked')) {
                 $.get(endpoint + "?$where=day='Sun'" + " AND park='" + $("#park").val() + "' OR title='" + $("#title").val() + "')", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -454,7 +461,7 @@
                 hideAll();
                 $.get(endpoint + "?$where=park='" + $("#park").val() + "'", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + "</div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
@@ -526,7 +533,7 @@
                 hideAll();
                 $.get(endpoint + "?$where=title='" + $("#title").val() + "'", function(response) {
                     $.each(response, function(i, v) {
-                        $("body").append("<div class='card style='width: 18rem;'><div class='card-body'><h4                                             class='card-title'>" + v.title + "</h4><h5 class='card-subtitle mb-2 text-muted'>" + v.park + "                                         </h5><h6 class='card-subtitle mb-2 text-muted'>" + v.day + "  </h6> <button onclick ='hideCard()' id =                                                                              'mapSearch'>Directions</button>" + " </div></div>")
+                        $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
                     });
                 });
