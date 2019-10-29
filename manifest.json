@@ -1,6 +1,6 @@
 {
-    "short_name": "UA",
-    "name": "Untitled",
+    "short_name": "MS",
+    "name": "Movie Search",
     "start_url": "/index.html",
     "background_color": "#FFE1C4",
     "display": "standalone",
