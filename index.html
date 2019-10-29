@@ -128,8 +128,8 @@
                 $(".card").hide();
                 $("#map").show();
             }
-            var map;
-
+            var map,i;
+            var markers = [];
             function initMap() {
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 10,
@@ -139,7 +139,6 @@
                     }
                 });
             }
-
             function createMarkers(record) {
                 var loc = {
                     lat: parseFloat(record.location.latitude),
@@ -154,15 +153,24 @@
                     map: map,
                     title: record.park
                 });
+                //clearMarkers();
+                markers.push(marker);
                 marker.addListener('click ', function() {
                     infowindow.open(map, marker);
                 });
             }
+            function clearMarkers(map) {
+            for (i = 0; i < markers.length; i++) {
+                console.log(1);
+                markers[i].setMap(map);
+            }
+        }
             $("#home").on("click", function() {
                 $(".card").hide();
                 $(".contains").show();
                 $("#map").hide();
                 $(".count").hide();
+                clearMarkers(null);
             });
             $("#map1").on("click", function() {
                 $(".card").hide();
@@ -193,6 +201,7 @@
     </div>
     <!--Search by selecting multiple days-->
     <script>
+        var count = 0;
         var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
         $(document).ready(function() {
             $("#search").on("click", function() {
@@ -202,7 +211,9 @@
                         $.each(response, function(i, v) {
                             $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
+                            count++;
                         });
+                        
                     });
                 }
             });
@@ -213,7 +224,8 @@
                         $.each(response, function(i, v) {
                             $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
-                        });
+                            count++;
+                        });       
                     });
                 }
             });
@@ -225,7 +237,8 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
-                    });
+                        count++;
+                    });                  
                 });
             }
         });
@@ -236,7 +249,9 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
+                        count++;
                     });
+                   
                 });
             }
         });
@@ -247,7 +262,8 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
-                    });
+                        count++;
+                    });                     
                 });
             }
         });
@@ -258,7 +274,9 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
+                        count++;
                     });
+                         
                 });
             }
         });
@@ -269,59 +287,71 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
+                        count++;
                     });
+                       
                 });
             }
         });
-
-        function hideCard() {
-            $(".card").hide();
-            $("#map").show();
-        }
-        var map;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: {
-                    lat: 41.881832,
-                    lng: -87.623177
-                }
-            });
-        }
-
-        function createMarkers(record) {
-            var loc = {
-                lat: parseFloat(record.location.latitude),
-                lng: parseFloat(record.location.longitude)
+            function hideCard() {
+                $(".card").hide();
+                $("#map").show();
             }
-            var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
-            var infowindow = new google.maps.InfoWindow({
-                content: text
-            });
-            var marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-                title: record.park
-            });
-            marker.addListener('click ', function() {
-                infowindow.open(map, marker);
-            });
+            var map,i;
+            var markers = [];
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: {
+                        lat: 41.881832,
+                        lng: -87.623177
+                    }
+                });
+            }
+            function createMarkers(record) {
+                var loc = {
+                    lat: parseFloat(record.location.latitude),
+                    lng: parseFloat(record.location.longitude)
+                }
+                var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
+                var infowindow = new google.maps.InfoWindow({
+                    content: text
+                });
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    map: map,
+                    title: record.park
+                });
+                //clearMarkers();
+                markers.push(marker);
+                marker.addListener('click ', function() {
+                    infowindow.open(map, marker);
+                });
+            }
+            function clearMarkers(map) {
+            for (i = 0; i < markers.length; i++) {
+                console.log(1);
+                markers[i].setMap(map);
+            }
         }
-        $("#home").on("click", function() {
-            $(".card").hide();
-            $(".contains").show();
-        });
-        $("#map1").on("click", function() {
-            $(".card").hide();
-            $(".contains").hide();
-            $("#map").show();
-        });
+            $("#home").on("click", function() {
+                $(".card").hide();
+                $(".contains").show();
+                $("#map").hide();
+                $(".count").hide();
+                clearMarkers(null);
+            });
+            $("#map1").on("click", function() {
+                $(".card").hide();
+                $(".contains").hide();
+                $("#map").show();
+            });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!--Search by day and park or movie-->
     <script>
+        var count =0;
         var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
         $(document).ready(function() {
             $("#isMondaySelected").on("click", function() {
@@ -330,7 +360,9 @@
                         $.each(response, function(i, v) {
                             $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
+                            count++;
                         });
+                                                
                     });
                 }
             });
@@ -340,7 +372,8 @@
                         $.each(response, function(i, v) {
                             $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                             createMarkers(v);
-                        });
+                            count++;
+                        });                             
                     });
                 }
             });
@@ -351,7 +384,8 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
-                    });
+                        count++;
+                    });                                
                 });
             }
         });
@@ -361,7 +395,8 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
-                    });
+                        count++;
+                    });                                         
                 });
             }
         });
@@ -371,7 +406,9 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
+                        count++;
                     });
+                                         
                 });
             }
         });
@@ -381,7 +418,8 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
-                    });
+                        count++;
+                    });                                       
                 });
             }
         });
@@ -391,54 +429,64 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
-                    });
+                        count++;
+                    });                   
                 });
             }
         });
 
-        function hideCard() {
-            $(".card").hide();
-            $("#map").show();
-        }
-        var map;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: {
-                    lat: 41.881832,
-                    lng: -87.623177
-                }
-            });
-        }
-
-        function createMarkers(record) {
-            var loc = {
-                lat: parseFloat(record.location.latitude),
-                lng: parseFloat(record.location.longitude)
+            function hideCard() {
+                $(".card").hide();
+                $("#map").show();
             }
-            var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
-            var infowindow = new google.maps.InfoWindow({
-                content: text
-            });
-            var marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-                title: record.park
-            });
-            marker.addListener('click ', function() {
-                infowindow.open(map, marker);
-            });
+            var map,i;
+            var markers = [];
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: {
+                        lat: 41.881832,
+                        lng: -87.623177
+                    }
+                });
+            }
+            function createMarkers(record) {
+                var loc = {
+                    lat: parseFloat(record.location.latitude),
+                    lng: parseFloat(record.location.longitude)
+                }
+                var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
+                var infowindow = new google.maps.InfoWindow({
+                    content: text
+                });
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    map: map,
+                    title: record.park
+                });
+                markers.push(marker);
+                marker.addListener('click ', function() {
+                    infowindow.open(map, marker);
+                });
+            }
+            function clearMarkers(map) {
+            for (i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
         }
-        $("#home").on("click", function() {
-            $(".card").hide();
-            $(".contains").show();
-        });
-        $("#map1").on("click", function() {
-            $(".card").hide();
-            $(".contains").hide();
-            $("#map").show();
-        });
+        
+            $("#home").on("click", function() {
+                $(".card").hide();
+                $(".contains").show();
+                $("#map").hide();
+                $(".count").hide();
+                clearMarkers(null);
+            });
+            $("#map1").on("click", function() {
+                $(".card").hide();
+                $(".contains").hide();
+                $("#map").show();
+            });
     </script>
     <!--Search by park name only-->
     <div class="contains" style="text-align:center">
@@ -452,7 +500,7 @@
     </div>
     <script>
         var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
-
+         var count = 0;
         function hideAll() {
             $(".contains").hide();
         }
@@ -463,54 +511,67 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
+                        count++;
                     });
+                        $("body").append("<div class = 'count' style= 'background-color:white'>Total results: " + count + "</div>")
+                        count = 0;                    
                 });
             });
         });
 
-        function hideCard() {
-            $(".card").hide();
-            $("#map").show();
-        }
-        var map;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: {
-                    lat: 41.881832,
-                    lng: -87.623177
-                }
-            });
-        }
-
-        function createMarkers(record) {
-            var loc = {
-                lat: parseFloat(record.location.latitude),
-                lng: parseFloat(record.location.longitude)
+                    function hideCard() {
+                $(".card").hide();
+                $("#map").show();
             }
-            var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
-            var infowindow = new google.maps.InfoWindow({
-                content: text
-            });
-            var marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-                title: record.park
-            });
-            marker.addListener('click ', function() {
-                infowindow.open(map, marker);
-            });
+            var map,i;
+            var markers = [];
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: {
+                        lat: 41.881832,
+                        lng: -87.623177
+                    }
+                });
+            }
+            function createMarkers(record) {
+                var loc = {
+                    lat: parseFloat(record.location.latitude),
+                    lng: parseFloat(record.location.longitude)
+                }
+                var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
+                var infowindow = new google.maps.InfoWindow({
+                    content: text
+                });
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    map: map,
+                    title: record.park
+                });
+                //clearMarkers();
+                markers.push(marker);
+                marker.addListener('click ', function() {
+                    infowindow.open(map, marker);
+                });
+            }
+            function clearMarkers(map) {
+            for (i = 0; i < markers.length; i++) {
+                console.log(1);
+                markers[i].setMap(map);
+            }
         }
-        $("#home").on("click", function() {
-            $(".card").hide();
-            $(".contains").show();
-        });
-        $("#map1").on("click", function() {
-            $(".card").hide();
-            $(".contains").hide();
-            $("#map").show();
-        });
+            $("#home").on("click", function() {
+                $(".card").hide();
+                $(".contains").show();
+                $("#map").hide();
+                $(".count").hide();
+                clearMarkers(null);
+            });
+            $("#map1").on("click", function() {
+                $(".card").hide();
+                $(".contains").hide();
+                $("#map").show();
+            });
     </script>
     <!--Search by movie title only-->
     <div class="contains" style="text-align:center">
@@ -524,7 +585,7 @@
     </div>
     <script>
         var endpoint = "https://data.cityofchicago.org/resource/7piw-z6r6.json";
-
+        var count =0;
         function hideAll() {
             $(".contains").hide();
         }
@@ -535,54 +596,67 @@
                     $.each(response, function(i, v) {
                         $("body").append("<div class='card' style='width: 25.5rem;'><div class='card-body'><h5 class='card-title'>" + v.title + "</h5><h6 class='card-subtitle mb-2 text-muted'>" + v.park + "</h6><p class='card-text'> Address: " + v.park_address + "<br> Contact: " + v.park_phone + "<br>Captions: " + v.cc + "<br> Rating: " + v.rating + "<br> Date: " + v.date.split("T")[0] + "</p></h6> <button onclick ='hideCard()' id='mapSearch'>Directions</button></div></div>")
                         createMarkers(v);
+                        count++;
                     });
+                        $("body").append("<div class = 'count' style= 'background-color:white'>Total results: " + count + "</div>")
+                        count = 0;                    
                 });
             });
         });
 
-        function hideCard() {
-            $(".card").hide();
-            $("#map").show();
-        }
-        var map;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: {
-                    lat: 41.881832,
-                    lng: -87.623177
-                }
-            });
-        }
-
-        function createMarkers(record) {
-            var loc = {
-                lat: parseFloat(record.location.latitude),
-                lng: parseFloat(record.location.longitude)
+                    function hideCard() {
+                $(".card").hide();
+                $("#map").show();
             }
-            var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
-            var infowindow = new google.maps.InfoWindow({
-                content: text
-            });
-            var marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-                title: record.park
-            });
-            marker.addListener('click ', function() {
-                infowindow.open(map, marker);
-            });
+            var map,i;
+            var markers = [];
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: {
+                        lat: 41.881832,
+                        lng: -87.623177
+                    }
+                });
+            }
+            function createMarkers(record) {
+                var loc = {
+                    lat: parseFloat(record.location.latitude),
+                    lng: parseFloat(record.location.longitude)
+                }
+                var text = "<div class = 'card style=' width: 18rem;'><div class='card-body'><h4 class='card -                                              title '>" + record.title + "</h4><h5 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_address + "</h5><h6 class=' card - subtitle mb - 2 text - muted                                                '>" + record.park_phone + "<h6 class=' card - subtitle mb - 2 text - muted '>" + record.cc + "<h6 class='card - subtitle mb - 2 text - muted '>" + record.rating + "<h6 class='card -                                           subtitle mb - 2 text - muted '>" + record.date + "</div>                                                                        </div>";
+                var infowindow = new google.maps.InfoWindow({
+                    content: text
+                });
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    map: map,
+                    title: record.park
+                });
+                //clearMarkers();
+                markers.push(marker);
+                marker.addListener('click ', function() {
+                    infowindow.open(map, marker);
+                });
+            }
+            function clearMarkers(map) {
+            for (i = 0; i < markers.length; i++) {
+                console.log(1);
+                markers[i].setMap(map);
+            }
         }
-        $("#home").on("click", function() {
-            $(".card").hide();
-            $(".contains").show();
-        });
-        $("#map1").on("click", function() {
-            $(".card").hide();
-            $(".contains").hide();
-            $("#map").show();
-        });
+            $("#home").on("click", function() {
+                $(".card").hide();
+                $(".contains").show();
+                $("#map").hide();
+                $(".count").hide();
+                clearMarkers(null);
+            });
+            $("#map1").on("click", function() {
+                $(".card").hide();
+                $(".contains").hide();
+                $("#map").show();
+            });
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_ozD9-Pzw4b7Z0vdPGDuaiIw0DNJM9Vc&callback=initMap">
     </script>
