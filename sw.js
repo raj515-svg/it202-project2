@@ -1,15 +1,31 @@
+const staticCache = 'site-static';
+const assets = [
+    '/',
+    '/index.html',
+    '/app.js',
+    
+];
 //install event
 self.addEventListener('install', evt=> {
-  // Perform install steps
-  console.log('service worker installed');
+  //console.log('service worker installed');
+  evt.waitUntil(caches.open(staticCache).then(cache=>{
+        console.log('cache adding');
+        cache.addAll(assets);                        
+      })
+    );
 });
 
 //activate event
 self.addEventListener('activate', evt=>{
-      console.log('service worker activated');
+      //console.log('service worker activated');
 });
 
 //fetch event
 self.addEventListener('fetch', evt=>{
-          console.log('fetch event', evt);
+          //console.log('fetch event', evt);
+         evt.respondWith(
+             caches.match(evt.request).then(cacheRes =>{
+                 return cacheRes || fetch(evt.request);
+             })
+         );
 });
