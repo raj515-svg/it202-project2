@@ -1,8 +1,7 @@
 const staticCache = 'site-static';
  const assets = [
-     '/',
-     '/index.html',
-     '/app1.js',
+     'index.html',
+     'app1.js',
 
  ];
  //install event
