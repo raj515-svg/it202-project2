@@ -6,12 +6,12 @@
     "display": "standalone",
     "icons": [
     {
-      "src": "it202-project2/img/icons-192.png",
+      "src": "img/icons-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "it202-project2/img/icons-512.png",
+      "src": "img/icons-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
